@@ -1,0 +1,254 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", system-ui, sans-serif;
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-forest: #213329;
+  --color-olive: #344e41;
+  --color-sage: #588157;
+  --color-moss: #a3b18a;
+  --color-cream: #f4f1de;
+  --color-clay: #e07a5f;
+  --color-terracotta: #f2cc8f;
+  --color-dark: #121c17;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-dark);
+    color: var(--color-cream);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Custom Keyframe Animations for Sparkles & Interactive Sandbox */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(15deg);
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(-10deg);
+  }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+}
+
+@keyframes data-flow-dash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+/* Breathing ambient glow matching our forest/sage/dark theme */
+@keyframes breathe-glow {
+  0%, 100% {
+    opacity: 0.15;
+    transform: scale(1) translate(0px, 0px);
+    filter: blur(80px);
+  }
+  33% {
+    opacity: 0.35;
+    transform: scale(1.15) translate(30px, -20px);
+    filter: blur(100px);
+    background-color: var(--color-sage);
+  }
+  66% {
+    opacity: 0.25;
+    transform: scale(0.9) translate(-20px, 40px);
+    filter: blur(90px);
+    background-color: var(--color-olive);
+  }
+}
+
+/* Neon Wind Left: Slow, calm organic drift with emerald to yellow hue shifts */
+@keyframes neon-wind-left {
+  0%, 100% {
+    opacity: 0.50;
+    transform: scale(1) translate(0px, 0px) rotate(0deg);
+    filter: blur(120px) hue-rotate(0deg);
+  }
+  33% {
+    opacity: 0.80;
+    transform: scale(1.15, 0.95) translate(4vw, 30px) rotate(3deg);
+    filter: blur(140px) hue-rotate(35deg);
+  }
+  66% {
+    opacity: 0.60;
+    transform: scale(0.9, 1.1) translate(-3vw, -20px) rotate(-2deg);
+    filter: blur(120px) hue-rotate(-20deg);
+  }
+}
+
+/* Neon Wind Center: Very slow, deep pulsing atmospheric wave with cyan to purple hue shifts */
+@keyframes neon-wind-center {
+  0%, 100% {
+    opacity: 0.55;
+    transform: scale(1) translate(0px, -15px) rotate(0deg);
+    filter: blur(130px) hue-rotate(0deg);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.12, 1.25) translate(-2vw, 35px) rotate(1.5deg);
+    filter: blur(160px) hue-rotate(50deg);
+  }
+}
+
+/* Neon Wind Right: Warm drift with orange to red/pink hue shifts */
+@keyframes neon-wind-right {
+  0%, 100% {
+    opacity: 0.50;
+    transform: scale(1) translate(0px, 0px) rotate(0deg);
+    filter: blur(120px) hue-rotate(0deg);
+  }
+  40% {
+    opacity: 0.75;
+    transform: scale(1.2, 0.9) translate(-4vw, 25px) rotate(-3deg);
+    filter: blur(140px) hue-rotate(-45deg);
+  }
+  80% {
+    opacity: 0.55;
+    transform: scale(0.88, 1.15) translate(2vw, -15px) rotate(1deg);
+    filter: blur(120px) hue-rotate(25deg);
+  }
+}
+
+/* Binary flow streams falling downwards representing Big Data */
+@keyframes data-stream-fall {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.18;
+  }
+  90% {
+    opacity: 0.18;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* Lateral data packet pulses across wireframes */
+@keyframes horizontal-pulse {
+  0% {
+    left: -10%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    left: 110%;
+    opacity: 0;
+  }
+}
+
+/* Utility Animation Classes */
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+
+.animate-data-flow {
+  stroke-dasharray: 8, 4;
+  animation: data-flow-dash 1.5s linear infinite;
+}
+
+.animate-neon-wind-left {
+  animation: neon-wind-left 18s ease-in-out infinite;
+}
+
+.animate-neon-wind-center {
+  animation: neon-wind-center 24s ease-in-out infinite;
+}
+
+.animate-neon-wind-right {
+  animation: neon-wind-right 15s ease-in-out infinite;
+}
+
+.animate-stream-fall {
+  animation: data-stream-fall 14s linear infinite;
+}
+
+.animate-horizontal-pulse {
+  animation: horizontal-pulse 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Custom scrollbar matching Sean's color scheme */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-olive);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-sage);
+}
+
+/* Custom Click-Triggered Data Stream Fall Animation */
+@keyframes click-stream-fall {
+  0% {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(400px);
+    opacity: 0;
+  }
+}
+
+.animate-click-stream {
+  animation: click-stream-fall 1.6s cubic-bezier(0.15, 0.45, 0.35, 1) forwards;
+}

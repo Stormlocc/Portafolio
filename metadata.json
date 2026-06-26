@@ -1,0 +1,6 @@
+{
+  "name": "Anthony López - Portfolio",
+  "description": "Portafolio interactivo de Ingeniería de Datos, Ciencia de Datos y Big Data de Anthony López, inspirado en Sean Halpin. Incluye un simulador de pipeline y asistente de IA.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
