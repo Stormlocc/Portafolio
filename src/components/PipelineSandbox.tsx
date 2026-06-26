@@ -66,11 +66,14 @@ export default function PipelineSandbox() {
         if (active && isAutomatic && !isRunning) {
           handleRunPipeline(true);
         }
-      }, 2000);
+      }, 1500);
       return () => {
         active = false;
         clearTimeout(timer);
       };
+    }
+    if (!isAutomatic) {
+      runningRef.current = false;
     }
   }, [isAutomatic, isRunning]);
 
@@ -87,80 +90,136 @@ export default function PipelineSandbox() {
     });
   };
 
+  const runningRef = useRef(false);
+
+  const logAndWait = async (text: string, type: LogMessage["type"] = "info", ms: number = 600) => {
+    if (!runningRef.current) return false;
+    addLog(text, type);
+    await delay(ms);
+    return runningRef.current;
+  };
+
+  const streamDataLogs = async (stage: "ingesta" | "kafka" | "spark" | "storage", count: number) => {
+    const templates: Record<typeof stage, string[]> = {
+      ingesta: [
+        "📡 sensor_batch_{id} → {rows} registros capturados | latencia: {lat}ms",
+        "📥 flujo_cusco_{id} → {rows} lecturas de presión ingestadas | ts: {ts}",
+        "📦 pkt_raw_{id} → {rows} muestras de caudal recibidas | checksum: OK",
+        "📡 telemetry_{id} → {rows} señales IoT decodificadas | freq: 10Hz",
+      ],
+      kafka: [
+        "⚡ partition[{p}] → offset {offset} | {rows} msgs encolados | ack: líder",
+        "📊 topic:water-sensors → batch_{id} serializado Avro | {rows} records",
+        "🔥 broker_{p} → replicación ISR completada | lag: {lat}ms | {rows} pending",
+        "📥 consumer_group_1 → commit offset {offset} | {rows} msgs confirmados",
+      ],
+      spark: [
+        "⚙️ executor_{p} → stage {id} shuffle | {rows} particiones procesadas",
+        "🤖 ML_score → batch_{id} | precision: 0.{lat} | {rows} predicciones",
+        "🔄 RDD_transform_{id} → {rows} registros transformados | mem: {offset}MB",
+        "🧠 DAG_task_{id} → {rows} tareas completadas | cores: {p}/16 activos",
+      ],
+      storage: [
+        "💾 parquet_fragment_{id} → {rows} filas escritas | compresión: snappy",
+        "📦 delta_commit_{id} → {rows} registros persistidos | version: {offset}",
+        "💾 snowflake_wh → merge batch_{id} | {rows} upserts | latencia: {lat}ms",
+        "📦 z-order_opt_{id} → {rows} bloques optimizados | partición: fecha",
+      ],
+    };
+    const typeMap: Record<typeof stage, LogMessage["type"]> = {
+      ingesta: "info", kafka: "kafka", spark: "spark", storage: "storage",
+    };
+    const msgs = templates[stage];
+    for (let i = 0; i < count; i++) {
+      if (!runningRef.current) return;
+      const tpl = msgs[Math.floor(Math.random() * msgs.length)];
+      const line = tpl
+        .replace("{id}", String(Math.floor(Math.random() * 9000 + 1000)))
+        .replace("{rows}", String(Math.floor(Math.random() * 450 + 50)))
+        .replace("{lat}", String(Math.floor(Math.random() * 90 + 10)))
+        .replace("{p}", String(Math.floor(Math.random() * 4)))
+        .replace("{offset}", String(Math.floor(Math.random() * 50000 + 190000)))
+        .replace("{ts}", new Date().toISOString().slice(11, 23));
+      addLog(line, typeMap[stage]);
+      await delay(400 + Math.random() * 350);
+    }
+  };
+
   const handleRunPipeline = async (isLoopCall: boolean = false) => {
     if (isRunning) return;
     setIsRunning(true);
+    runningRef.current = true;
     setCurrentStep(0);
-    
+
     if (!isLoopCall) {
       setAnomalyCount(0);
       setProcessedCount(0);
       setLogs([]);
     } else {
       addLog("🔄 --- INICIANDO NUEVA TRANSMISIÓN (BUCLE AUTOMÁTICO) ---", "info");
+      await delay(400);
     }
 
     // STEP 0: Ingestion
-    addLog("🚀 [ESTADO: INGESTA] Iniciando motor de ingesta de Smart Water IoT Cusco.", "info");
-    addLog("📡 Escuchando transmisiones activas en puerto 9092 de telemetría.", "info");
-    addLog("📥 Datos capturados de 150 sensores de flujo y presión en tiempo real.", "info");
-    addLog("📦 Preparando lote de transacciones ID #8291-CUSCO. Formato: JSON crudo.", "info");
-    
-    await delay(3500); // Slowed down traversal
-    if (!isRunning) return;
+    if (!(await logAndWait("🚀 [ESTADO: INGESTA] Iniciando motor de ingesta de Smart Water IoT Cusco.", "info", 700))) return;
+    if (!(await logAndWait("📡 Escuchando transmisiones activas en puerto 9092 de telemetría.", "info", 600))) return;
+    await streamDataLogs("ingesta", 3);
+    if (!(await logAndWait("📦 Preparando lote de transacciones ID #8291-CUSCO. Formato: JSON crudo.", "info", 500))) return;
+
+    if (!runningRef.current) return;
     setCurrentStep(1);
 
     // STEP 1: Kafka Buffer
-    addLog("🔥 [ESTADO: KAFKA BUFFER] Levantando brókers de mensajería redundantes.", "kafka");
-    addLog("📊 Publicando lote en el tópico 'water-sensors-telemetry' con 3 particiones.", "kafka");
-    addLog("⚡ Líderes de partición asignados en el clúster: Broker_A, Broker_B.", "kafka");
-    addLog("📥 Mensajes serializados en Avro y encolados con éxito. Kafka Offset actual: 198421.", "kafka");
+    if (!(await logAndWait("🔥 [ESTADO: KAFKA BUFFER] Levantando brókers de mensajería redundantes.", "kafka", 700))) return;
+    if (!(await logAndWait("📊 Publicando lote en el tópico 'water-sensors-telemetry' con 3 particiones.", "kafka", 600))) return;
+    await streamDataLogs("kafka", 4);
+    if (!(await logAndWait("📥 Mensajes serializados en Avro y encolados con éxito. Kafka Offset actual: 198421.", "kafka", 500))) return;
 
-    await delay(4000); // Slowed down traversal
-    if (!isRunning) return;
+    if (!runningRef.current) return;
     setCurrentStep(2);
 
     // STEP 2: Spark Processing & ML scoring
-    addLog("🧠 [ESTADO: SPARK PROCESSING] Iniciando clúster de procesamiento distribuido (16 Cores).", "spark");
-    addLog("⚙️ Driver de Spark optimizando el árbol de ejecución (DAG execution plan).", "spark");
-    addLog("🤖 Inicializando modelo de Machine Learning 'RandomForestClassifier' (v2.1).", "spark");
-    addLog("🔄 Ejecutando transformaciones: Limpieza de valores nulos, escala vectorial MinMaxScaler.", "spark");
+    if (!(await logAndWait("🧠 [ESTADO: SPARK PROCESSING] Iniciando clúster de procesamiento distribuido (16 Cores).", "spark", 700))) return;
+    if (!(await logAndWait("⚙️ Driver de Spark optimizando el árbol de ejecución (DAG execution plan).", "spark", 600))) return;
+    if (!(await logAndWait("🤖 Inicializando modelo de Machine Learning 'RandomForestClassifier' (v2.1).", "spark", 500))) return;
+    await streamDataLogs("spark", 3);
 
     if (activeScenario === "drift") {
-      addLog("⚠️ [SCHEMA WATCHDOG] Alerta de desviación de esquema detectada en tiempo real.", "error");
-      addLog("🛡️ Activando protocolo de tolerancia a fallas: Desviando datos anómalos hacia S3 DLQ (Dead Letter Queue).", "info");
-      addLog("📥 Registros procesados marcados con bandera 'anomaly_drift=true'.", "spark");
+      if (!(await logAndWait("⚠️ [SCHEMA WATCHDOG] Alerta de desviación de esquema detectada en tiempo real.", "error", 800))) return;
+      if (!(await logAndWait("🛡️ Activando protocolo de tolerancia a fallas: Desviando datos anómalos hacia S3 DLQ.", "info", 700))) return;
+      if (!(await logAndWait("📥 Registros procesados marcados con bandera 'anomaly_drift=true'.", "spark", 500))) return;
     } else if (activeScenario === "failure") {
-      addLog("🚨 [SPARK OUT OF MEMORY] Excepción fatal detectada en Executor_3 de Spark (Heap al 100%).", "error");
-      addLog("🔄 Supervisor K8s iniciando auto-recuperación: Redirigiendo cargas al nodo secundario.", "info");
-      addLog("🩹 Tareas de partición recuperadas. Lote reconstruido de forma transparente.", "spark");
+      if (!(await logAndWait("🚨 [SPARK OUT OF MEMORY] Excepción fatal detectada en Executor_3 (Heap al 100%).", "error", 900))) return;
+      if (!(await logAndWait("🔄 Supervisor K8s iniciando auto-recuperación: Redirigiendo cargas al nodo secundario.", "info", 800))) return;
+      if (!(await logAndWait("🩹 Tareas de partición recuperadas. Lote reconstruido de forma transparente.", "spark", 600))) return;
     } else {
-      addLog("📥 Predicciones de ML exitosas. Consumo y anomalías hídricas evaluadas con precisión.", "spark");
+      if (!(await logAndWait("📥 Predicciones de ML exitosas. Consumo y anomalías hídricas evaluadas con precisión.", "spark", 500))) return;
     }
 
-    await delay(4500); // Slowed down traversal
-    if (!isRunning) return;
+    if (!runningRef.current) return;
     setCurrentStep(3);
 
     // STEP 3: Storage Commit (Snowflake)
-    addLog("💾 [ESTADO: STORAGE COMMIT] Abriendo transacción ACID en el Data Warehouse de Snowflake.", "storage");
-    addLog("📦 Escribiendo fragmentos parquet optimizados en formato de tabla Delta Lake.", "storage");
+    if (!(await logAndWait("💾 [ESTADO: STORAGE COMMIT] Abriendo transacción ACID en el Data Warehouse de Snowflake.", "storage", 700))) return;
+    await streamDataLogs("storage", 3);
 
     if (activeScenario === "failure") {
-      addLog("⚠️ Datos guardados con estado de rendimiento degradado por auto-recuperación.", "error");
-      addLog("📥 Confirmación de persistencia exitosa. Registros parciales guardados en Snowflake.", "storage");
+      if (!(await logAndWait("⚠️ Datos guardados con estado de rendimiento degradado por auto-recuperación.", "error", 700))) return;
+      if (!(await logAndWait("📥 Confirmación de persistencia exitosa. Registros parciales guardados en Snowflake.", "storage", 500))) return;
     } else {
-      addLog("✨ ¡Transacción Snowflake confirmada con éxito de forma atómica!", "success");
-      addLog("📥 Lote guardado y optimizado en Delta Lake con compresión Z-Order.", "storage");
+      if (!(await logAndWait("✨ ¡Transacción Snowflake confirmada con éxito de forma atómica!", "success", 600))) return;
+      if (!(await logAndWait("📥 Lote guardado y optimizado en Delta Lake con compresión Z-Order.", "storage", 500))) return;
     }
 
-    await delay(3200); // Slowed down traversal
+    if (!runningRef.current) return;
     setCurrentStep(4);
+    runningRef.current = false;
     setIsRunning(false);
     addLog("🎉 ¡PROCESO DE TRANSMISIÓN COMPLETADO! Todos los estados se ejecutaron sin pérdida de datos.", "success");
   };
 
   const handleReset = () => {
+    runningRef.current = false;
     setIsRunning(false);
     setIsAutomatic(false);
     setCurrentStep(-1);

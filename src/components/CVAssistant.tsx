@@ -73,7 +73,7 @@ export default function CVAssistant() {
       ]);
     } catch (err: any) {
       console.error(err);
-      setErrorMsg(err?.message || "Algo salió mal. ¿Está configurada tu clave API de Gemini?");
+      setErrorMsg(err?.message || "Algo salió mal. El asistente no está disponible en este momento.");
     } finally {
       setIsLoading(false);
     }
@@ -178,7 +178,7 @@ export default function CVAssistant() {
                       <span className="font-bold">Error de Compilación del Modelo</span>
                       <p className="opacity-90">{errorMsg}</p>
                       <p className="text-[10px] italic font-mono opacity-70 mt-1">
-                        👉 Consejo: Asegúrate de que tu GEMINI_API_KEY esté guardada en "Settings &gt; Secrets".
+                        👉 Consejo: Verifica que el backend del asistente esté configurado correctamente.
                       </p>
                     </div>
                   </div>

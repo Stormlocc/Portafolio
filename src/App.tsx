@@ -260,7 +260,7 @@ export default function App() {
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
             <div className="relative group max-w-[380px] sm:max-w-[430px] w-full aspect-square bg-transparent transition-all flex items-center justify-center">
               <img
-                src="/yo_anthony.png"
+                src="/images/yo_anthony.png"
                 alt="Anthony López - AI Data Engineer"
                 className="w-full h-full object-contain hover:scale-105 transition-all duration-500"
                 referrerPolicy="no-referrer"
