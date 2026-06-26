@@ -11,88 +11,95 @@ import { motion } from "motion/react";
 
 const PROJECTS_DATA: Project[] = [
   {
-    id: "hydrostream",
-    title: "Pipeline Kafka HydroStream",
-    subtitle: "Bucle de Ingesta IoT en Tiempo Real",
-    description: "Transmisión de más de 10 millones de eventos telemétricos diarios desde sensores municipales inteligentes hacia Delta Lake con alertas de anomalía de baja latencia.",
-    longDescription: `Diseñé un pipeline de ingesta de datos en tiempo real de alto rendimiento para procesar la telemetría de más de 150 sensores de agua inteligentes distribuidos geográficamente.
+    id: "football-pipeline",
+    title: "Pipeline de Datos Deportivos - Fútbol",
+    subtitle: "Arquitectura Medallón con APIs",
+    description: "Orquestación de pipelines para obtención de datos de fútbol de proveedores deportivos mediante APIs, con procesamiento y normalización basada en arquitectura medallón para Machine Learning.",
+    longDescription: `Diseñé y orquesté pipelines end-to-end para la ingesta y procesamiento de datos de proveedores deportivos de fútbol mediante APIs REST.
 
     Descripción de la Arquitectura:
-    - Ingesta: Los flujos de datos crudos continuos se almacenan temporalmente mediante canales de temas de Apache Kafka con replicación triple para garantizar tolerancia cero a la pérdida de datos.
-    - Motor de Procesamiento: Implementé PySpark Structured Streaming en AWS EMR. Configuré ventanas deslizantes de tiempo de eventos de 10 segundos y marcas de agua (watermarks) para capturar datos tardíos.
-    - Capa de Almacenamiento: Guardé los resultados analíticos en particiones de tablas de S3 Delta Lake, resolviendo reversiones de transacciones con protección ACID transaccional.
-    
-    Impacto y Aspectos de Recuperación:
-    - Procesa más de 10 millones de mensajes crudos al día con una latencia inferior a 2 segundos.
-    - Cuenta con controladores integrados de auto-recuperación para desviaciones de esquema (schema-drift), redirigiendo esquemas inesperados a una Cola de Mensajes no Entregados (DLQ) segura.`,
+    - Ingesta: Conexión a múltiples APIs de proveedores deportivos para obtención de datos en tiempo real y batch de estadísticas, resultados y métricas de jugadores.
+    - Procesamiento: Limpieza, estandarización y normalización de datos garantizando consistencia y completitud a través de múltiples fuentes con diferentes formatos.
+    - Arquitectura Medallón: Implementación de capas Bronze, Silver y Gold para el procesamiento progresivo de datos crudos hasta datos listos para Machine Learning.
+
+    Impacto y Resultados:
+    - Datos estandarizados y normalizados listos para consumo por modelos de Machine Learning.
+    - Garantía de consistencia y completitud de datos de múltiples proveedores con diferentes formatos.
+    - Pipeline reproducible y escalable para la incorporación de nuevos proveedores deportivos.`,
     category: "Ingeniería de Datos",
-    tech: ["Apache Kafka", "Spark Streaming", "PySpark", "Delta Lake", "AWS EMR", "Docker"],
+    tech: ["Python", "Spark", "APIs REST", "Data Lake", "Machine Learning", "SQL"],
     bgColor: "bg-brand-mint",
     accentColor: "text-sage",
     illustrationType: "kafka",
   },
   {
-    id: "deeppredict",
-    title: "Pronóstico de Demanda DeepPredict",
-    subtitle: "Entrenamiento de Series Temporales Distribuidas",
-    description: "Escalado de un sistema de pronóstico XGBoost distribuido sobre un clúster Spark multinodo para analizar terabytes de conjuntos de datos de ventas minoristas.",
-    longDescription: `Desarrollé y automaticé un motor distribuido de predicción de demanda multinodo para un cliente global de comercio minorista.
+    id: "thesis-pipeline",
+    title: "Pipeline End-to-End Deportivo-Ambiental",
+    subtitle: "Tesis - Orquestación con Airflow",
+    description: "Orquestación de web scraping y APIs con Airflow, diseño de Data Warehouse OLAP en SQL Server e integración con NASA POWER API optimizada de 10 horas a 45 minutos.",
+    longDescription: `Desarrollé un pipeline de datos end-to-end integrando datos deportivos y ambientales para análisis predictivo como proyecto de tesis de ingeniería.
 
     Descripción de la Arquitectura:
-    - Cómputo: PySpark MLlib y envoltorios distribuidos de XGBoost escalados en un clúster de 32 nodos de EC2, entrenando modelos de previsión sobre terabytes de flujos de compra de clientes.
-    - Agregación de Características: Spark SQL calculó características de series temporales continuas (retrasos, promedios deslizantes, índices de fin de semana) en múltiples niveles de la cadena minorista.
-    - Orquestación: Gestioné las programaciones de entrenamiento, prueba y despliegue del modelo de extremo a extremo mediante DAGs de Apache Airflow.
-    
-    Impacto y Aspectos de Recuperación:
-    - Reducción del tiempo de compilación de características del modelo de 14 horas a solo 45 minutos.
-    - Incremento de la precisión del pronóstico (puntuación MAPE) en un 14%, reduciendo directamente las rupturas de stock en inventario en un 18% durante picos de demanda estacionales.`,
-    category: "Ciencia de Datos",
-    tech: ["PySpark MLlib", "XGBoost", "Apache Airflow", "Python", "Snowflake", "Docker"],
+    - Orquestación: Web scraping y consumo de APIs orquestados con Apache Airflow para extracción automatizada y programada de datos de múltiples fuentes.
+    - Almacenamiento: Diseño de Data Warehouse dimensional (OLAP) en SQL Server con modelo estrella para análisis multidimensional.
+    - Integración NASA POWER: Optimización de la integración con API NASA POWER tanto en software como en hardware, reduciendo tiempos de procesamiento de 10 horas a 45 minutos.
+    - Calidad: Implementación de controles de calidad por cada etapa del pipeline. Procesamiento de datos no relacionales con alta inconsistencia.
+
+    Impacto y Resultados:
+    - Reducción del 92.5% en tiempo de procesamiento de datos ambientales (de 10h a 45min).
+    - Implementación de RNN y PCA para análisis predictivo sobre los datos consolidados.
+    - Controles de calidad automatizados garantizando integridad de datos en cada etapa del pipeline.`,
+    category: "Big Data",
+    tech: ["Apache Airflow", "SQL Server", "NASA POWER API", "Python", "RNN", "PCA"],
     bgColor: "bg-brand-cream",
     accentColor: "text-clay",
     illustrationType: "spark",
   },
   {
-    id: "georide",
-    title: "Clúster Espacial GeoRide",
-    subtitle: "Telemetría Espacial Contenedorizada",
-    description: "Diseñé flujos de rutas GPS desplegados en GKE usando Kafka y rejillas espaciales para predecir el tiempo estimado de llegada (ETA) para 5,000 consultas/seg.",
-    longDescription: `Diseñé un pipeline de transmisión de datos geoespaciales contenedorizado que se escala dinámicamente para predecir los tiempos de llegada de taxis y rutas de viaje.
+    id: "sis-health",
+    title: "Consolidación Data de Salud - SIS Cusco",
+    subtitle: "Data Warehouse y Optimización SQL",
+    description: "Migración y consolidación de data de seguros de salud a Data Warehouse dimensional con reportes analíticos sobre millones de registros y optimización de queries y SPs.",
+    longDescription: `Lideré la consolidación de datos del Seguro Integral de Salud (SIS) de múltiples centros asistenciales de Cusco hacia un Data Warehouse centralizado.
 
     Descripción de la Arquitectura:
-    - Contenedorización: Escalado de microservicios en Google Kubernetes Engine (GKE) bajo HPA (Escalado Automático Horizontal de Pods).
-    - Bucle de Ingesta: Los flujos de coordenadas GPS se publican en un clúster de Apache Kafka que se ejecuta dentro de Kubernetes.
-    - Caché e Indexación: Los resultados del flujo se almacenan en tablas Redis de baja latencia indexadas mediante cuadrículas espaciales jerárquicas H3.
-    
-    Impacto y Aspectos de Recuperación:
-    - Atiende hasta 5,000 solicitudes por segundo con límites de respuesta inferiores a 25ms.
-    - La arquitectura auto-curativa activa automáticamente reinicios de pods de Kubernetes ante fugas de memoria o activaciones de tiempo de espera agotado.`,
-    category: "Big Data",
-    tech: ["GKE Kubernetes", "Apache Kafka", "Redis Cache", "Python", "H3 Spatial Grids", "Helm"],
-    bgColor: "bg-brand-lavender",
-    accentColor: "text-terracotta",
-    illustrationType: "kubernetes",
-  },
-  {
-    id: "lakehouse",
-    title: "Arquitectura de Feature Store",
-    subtitle: "Transformaciones Automatizadas con dbt",
-    description: "Ensamblé un almacén de características de ML centralizado en Snowflake y dbt para publicar automáticamente los pesos de agregación del modelo.",
-    longDescription: `Estructuré un Feature Store centralizado para compilar, documentar y publicar conjuntos de características para pipelines activos de Aprendizaje Automático (Machine Learning).
+    - Migración: Migración de data de múltiples sistemas hacia un Data Warehouse dimensional para análisis centralizado y reportes regulatorios.
+    - Procesamiento: Procesamiento de promedio de 15,000 registros diarios aplicando reglas de consistencia mediante Stored Procedures, SQL Server y Python con Spark.
+    - Reportes: Desarrollo de reportes analíticos sobre millones de registros con filtros por establecimiento, personal y paciente.
+    - Optimización: Rewriting de queries y SPs con reordenamiento y aumento de condicionales en joins para mejora significativa de rendimiento.
 
-    Descripción de la Arquitectura:
-    - DAGs de Transformación: Ensamblé y gestioné múltiples modelos de dbt para transformar registros de almacén de datos sin procesar en métricas de características limpias y agregadas.
-    - Estrategia de Almacén de Datos: Implementé claves de clúster de Snowflake y clones de copia cero (zero-copy clones) para optimizar la eficiencia del almacenamiento.
-    - Bucle de Automatización: Integré GitHub Actions para ejecutar automáticamente transformaciones, pruebas de dbt y compilaciones de documentación.
-    
-    Impacto y Aspectos de Recuperación:
-    - Reducción del tiempo de desarrollo de ingeniería de características para nuevos modelos de ML de varias semanas a una sola tarde.
-    - Ahorro del 30% en créditos de cómputo de almacenamiento al materializar tablas como estructuras incrementales de Snowflake.`,
+    Impacto y Resultados:
+    - Automatización de validaciones y controles de calidad de datos de múltiples fuentes asistenciales.
+    - Optimización significativa de queries y stored procedures sobre tablas pesadas.
+    - Pipelines ETL para consolidación de datos desde backups de múltiples centros de salud.`,
     category: "Ingeniería de Datos",
-    tech: ["dbt (Data Build Tool)", "Snowflake DB", "Github Actions", "Python", "SQL", "Databricks"],
+    tech: ["SQL Server", "Stored Procedures", "Python", "Spark", "ETL", "Power BI"],
     bgColor: "bg-brand-sky",
     accentColor: "text-sage",
     illustrationType: "snowflake",
+  },
+  {
+    id: "fraud-detection",
+    title: "Detección de Fraude Bancario",
+    subtitle: "Machine Learning para Fintech",
+    description: "Desarrollo de modelos de Machine Learning para detección de transacciones fraudulentas en el sector financiero, procesando +10M de registros transaccionales mensuales.",
+    longDescription: `Implementé un sistema de detección de fraude bancario utilizando técnicas de Machine Learning sobre datos transaccionales del sector financiero.
+
+    Descripción de la Arquitectura:
+    - Procesamiento: Análisis y procesamiento de más de 10 millones de transacciones mensuales para identificación de patrones de fraude con pipelines ETL automatizados.
+    - Modelado: Entrenamiento de modelos de clasificación con técnicas de balanceo de clases y detección de anomalías sobre datos transaccionales masivos.
+    - Ingeniería de Características: Feature engineering sobre datos temporales, montos, frecuencia y patrones de comportamiento de usuarios.
+    - Validación: Evaluación rigurosa con métricas especializadas (precision, recall, F1-score) optimizando el balance entre falsos positivos y negativos.
+
+    Impacto y Resultados:
+    - Detección efectiva de patrones de fraude en datos transaccionales masivos del sector financiero.
+    - Reducción de falsos positivos manteniendo alta tasa de detección de fraudes reales.
+    - Pipeline de datos reproducible integrado con Databricks para reentrenamiento continuo.`,
+    category: "Ciencia de Datos",
+    tech: ["Python", "Machine Learning", "SQL Server", "Pandas", "Databricks", "Power BI"],
+    bgColor: "bg-brand-lavender",
+    accentColor: "text-terracotta",
+    illustrationType: "kubernetes",
   },
 ];
 
@@ -219,24 +226,24 @@ export default function App() {
             <div className="mb-2 inline-flex items-center gap-2 bg-forest border-2 border-olive rounded-full px-4 py-1.5 shadow-[2px_2px_0px_0px_rgba(18,28,23,0.3)]">
               <Sparkles size={14} className="text-terracotta" />
               <span className="text-xs font-mono text-moss uppercase tracking-widest font-bold">
-                AI DATA ENGINEER
+                DATA ENGINEER & DATA FABRIC
               </span>
             </div>
 
             {/* Title */}
             <h1 className="text-4xl sm:text-6xl font-bold text-cream font-display tracking-tight leading-tight">
               Hola, soy Anthony. <br />
-              <span className="text-terracotta font-extrabold">Un Artesano de Datos e IA.</span>
+              <span className="text-terracotta font-extrabold">Data Engineer & Data Fabric.</span>
             </h1>
 
             {/* Tagline */}
             <p className="text-base sm:text-xl text-moss leading-relaxed font-sans font-light">
-              Diseño arquitecturas de pipelines escalables, orquesto colas distribuidas de alto rendimiento y optimizo flujos robustos de inteligencia artificial y machine learning desde Cusco, Perú.
+              Data Engineer con 2+ años de experiencia diseñando soluciones de datos escalables. Arquitecturas de Data Warehouses, Data Lakes, Big Data y pipelines ETL/ELT para sectores financiero y salud desde Cusco, Perú.
             </p>
 
             {/* Micro-bio */}
             <p className="text-xs sm:text-sm text-cream/70 leading-relaxed italic border-l-2 border-terracotta/40 pl-3 text-left">
-              "Equilibro la velocidad bruta de la optimización de clústeres de Big Data con la elegancia matemática de la compilación de modelos de Inteligencia Artificial."
+              "Procesando +10M de transacciones mensuales, optimizando tiempos de procesamiento y diseñando modelos dimensionales (OLAP) y transaccionales (OLTP) escalables."
             </p>
 
             {/* CTA Actions */}
@@ -272,7 +279,7 @@ export default function App() {
                   Anthony López
                 </span>
                 <span className="text-[9px] font-mono text-cream/75 block mt-0.5">
-                  Cusco, Perú • AI Data Engineer
+                  Cusco, Perú • Data Engineer & Data Fabric
                 </span>
               </div>
 
@@ -313,7 +320,7 @@ export default function App() {
             Casos de Estudio y Proyectos de I+D
           </h2>
           <p className="text-sm sm:text-base text-moss leading-relaxed">
-            Soluciones arquitectónicas reales creadas para responder a cargas de procesamiento de Big Data altamente exigentes y restricciones de agregación de características.
+            Soluciones de datos reales para sectores financiero, salud y deportivo con pipelines ETL/ELT, Data Warehouses y Machine Learning.
           </p>
         </div>
 
@@ -408,10 +415,10 @@ export default function App() {
                 Hola, soy Anthony López.
               </h2>
               <p className="text-sm sm:text-base text-moss leading-relaxed">
-                Soy un Ingeniero de Datos y Científico de Datos obsesionado con la optimización del rendimiento de cómputo distribuido y el escalado de esquemas confiables de almacenes de datos en la nube. Veo la arquitectura de sistemas como un rompecabezas de alta precisión donde cada parámetro de hilos, configuración de partición en Kafka y materialización en dbt cuenta.
+                Ingeniero Informático y de Sistemas graduado de la UNSAAC (Tercio Superior). Data Engineer con experiencia en Azure Databricks, Microsoft Fabric, SQL Server y Python para orquestación de datos. He trabajado en sectores financiero y salud, procesando más de 10M de transacciones mensuales y diseñando modelos dimensionales y transaccionales escalables.
               </p>
               <p className="text-sm sm:text-base text-moss leading-relaxed">
-                Mi enfoque hacia Big Data se guía por una filosofía simple: **construirlo limpio, probarlo agresivamente y asegurar que se auto-recupere de manera automática**. Estoy profundamente interesado en construir infraestructuras de transmisión de baja latencia, canales de automatización de microservicios y flujos paralelos de machine learning.
+                Primer Puesto en Cuscontest 2021 con clasificación a la competencia internacional ACM/ICPC. Expresidente del Centro Federado de Ingeniería Informática UNSAAC y miembro activo de ACM Chapter Cusco y PhawAI. Certificación Microsoft Fabric DP-700 en proceso. Inglés B1 y Portugués Intermedio.
               </p>
               
               <div className="grid grid-cols-2 gap-4 border-2 border-forest/15 rounded-2xl p-4 bg-forest/5">
@@ -420,8 +427,8 @@ export default function App() {
                   <p className="text-sm text-cream font-bold">Cusco, Perú (Disponible para Remoto)</p>
                 </div>
                 <div>
-                  <span className="text-[10px] font-mono uppercase font-bold text-terracotta">Pasatiempos</span>
-                  <p className="text-sm text-cream font-bold">Café Peruano, Senderismo Andino, Arqueoastronomía Inca</p>
+                  <span className="text-[10px] font-mono uppercase font-bold text-terracotta">Sectores de Interés</span>
+                  <p className="text-sm text-cream font-bold">Fintech, Healthtech, Insurtech</p>
                 </div>
               </div>
             </div>
