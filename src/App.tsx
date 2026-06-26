@@ -6,7 +6,7 @@ import SkillsSandbox from "./components/SkillsSandbox";
 import CVAssistant from "./components/CVAssistant";
 import BigDataBackground from "./components/BigDataBackground";
 import { Project } from "./types";
-import { Github, Linkedin, Mail, ExternalLink, Award, FileText, ArrowDown, User, Sparkles } from "lucide-react";
+import { Github, Linkedin, Mail, Facebook, ExternalLink, Award, FileText, ArrowDown, User, Sparkles } from "lucide-react";
 import { motion } from "motion/react";
 
 const PROJECTS_DATA: Project[] = [
@@ -260,7 +260,7 @@ export default function App() {
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
             <div className="relative group max-w-[380px] sm:max-w-[430px] w-full aspect-square bg-transparent transition-all flex items-center justify-center">
               <img
-                src="/images/yo_anthony.png"
+                src={`${import.meta.env.BASE_URL}images/yo_anthony.png`}
                 alt="Anthony López - AI Data Engineer"
                 className="w-full h-full object-contain hover:scale-105 transition-all duration-500"
                 referrerPolicy="no-referrer"
@@ -525,7 +525,7 @@ export default function App() {
           {/* Social Profiles */}
           <div className="flex items-center gap-3">
             <a
-              href="https://github.com"
+              href="https://github.com/Stormlocc"
               target="_blank"
               rel="noreferrer"
               className="p-2.5 border-2 border-forest bg-cream hover:bg-terracotta text-forest rounded-xl transition-all shadow-[2.5px_2.5px_0px_0px_rgba(33,51,41,1)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5"
@@ -533,12 +533,20 @@ export default function App() {
               <Github size={16} />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/mlocc/"
               target="_blank"
               rel="noreferrer"
               className="p-2.5 border-2 border-forest bg-cream hover:bg-terracotta text-forest rounded-xl transition-all shadow-[2.5px_2.5px_0px_0px_rgba(33,51,41,1)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5"
             >
               <Linkedin size={16} />
+            </a>
+            <a
+              href="https://www.facebook.com/anthonymlocc/"
+              target="_blank"
+              rel="noreferrer"
+              className="p-2.5 border-2 border-forest bg-cream hover:bg-terracotta text-forest rounded-xl transition-all shadow-[2.5px_2.5px_0px_0px_rgba(33,51,41,1)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5"
+            >
+              <Facebook size={16} />
             </a>
             <a
               href="mailto:anthonymlocc@gmail.com"
