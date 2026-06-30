@@ -1,4 +1,4 @@
-# Anthony López
+# Anthony Mayron López Oquendo
 
 **Senior Data Engineer & Data Scientist** | Cusco, Peru
 

@@ -6,7 +6,7 @@ import SkillsSandbox from "./components/SkillsSandbox";
 import CVAssistant from "./components/CVAssistant";
 import BigDataBackground from "./components/BigDataBackground";
 import { Project } from "./types";
-import { Github, Linkedin, Mail, Facebook, ExternalLink, Award, FileText, ArrowDown, User, Sparkles } from "lucide-react";
+import { Github, Linkedin, Mail, Facebook, ExternalLink, Award, FileText, ArrowDown, User, Sparkles, MessageCircle } from "lucide-react";
 import { motion } from "motion/react";
 
 const PROJECTS_DATA: Project[] = [
@@ -125,9 +125,14 @@ export default function App() {
     (proj) => filter === "Todos" || proj.category === filter
   );
 
+  const WHATSAPP_NUMBER = "51981505082";
+
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (contactForm.name && contactForm.email && contactForm.message) {
+      const text = `Hola Anthony, soy ${contactForm.name} (${contactForm.email}).\n\n${contactForm.message}`;
+      const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+      window.open(waUrl, "_blank", "noopener,noreferrer");
       setFormSubmitted(true);
       setTimeout(() => {
         setFormSubmitted(false);
@@ -232,7 +237,7 @@ export default function App() {
 
             {/* Title */}
             <h1 className="text-4xl sm:text-6xl font-bold text-cream font-display tracking-tight leading-tight">
-              Hola, soy Anthony. <br />
+              Hola, soy Anthony Mayron López Oquendo. <br />
               <span className="text-terracotta font-extrabold">Data Engineer & Data Fabric.</span>
             </h1>
 
@@ -268,7 +273,7 @@ export default function App() {
             <div className="relative group max-w-[380px] sm:max-w-[430px] w-full aspect-square bg-transparent transition-all flex items-center justify-center">
               <img
                 src={`${import.meta.env.BASE_URL}images/yo_anthony.png`}
-                alt="Anthony López - AI Data Engineer"
+                alt="Anthony Mayron López Oquendo - Data Engineer & Data Fabric"
                 className="w-full h-full object-contain hover:scale-105 transition-all duration-500"
                 referrerPolicy="no-referrer"
               />
@@ -276,7 +281,7 @@ export default function App() {
               {/* Badge Overlay */}
               <div className="absolute -bottom-4 left-4 right-4 bg-forest border-2 border-olive rounded-2xl p-2.5 shadow-[4px_4px_0px_0px_rgba(33,51,41,0.2)] text-center">
                 <span className="text-[10px] font-mono text-moss uppercase tracking-widest block font-bold">
-                  Anthony López
+                  Anthony Mayron López Oquendo
                 </span>
                 <span className="text-[9px] font-mono text-cream/75 block mt-0.5">
                   Cusco, Perú • Data Engineer & Data Fabric
@@ -412,7 +417,7 @@ export default function App() {
                 03 / EL ARTESANO DETRÁS DE LA MATRIZ
               </span>
               <h2 className="text-3xl sm:text-4xl font-display font-bold text-cream">
-                Hola, soy Anthony López.
+                Hola, soy Anthony Mayron López Oquendo.
               </h2>
               <p className="text-sm sm:text-base text-moss leading-relaxed">
                 Ingeniero Informático y de Sistemas graduado de la UNSAAC (Tercio Superior). Data Engineer con experiencia en Azure Databricks, Microsoft Fabric, SQL Server y Python para orquestación de datos. He trabajado en sectores financiero y salud, procesando más de 10M de transacciones mensuales y diseñando modelos dimensionales y transaccionales escalables.
@@ -444,9 +449,9 @@ export default function App() {
           <div className="p-6 border-b-3 border-forest bg-forest text-cream flex items-center justify-between">
             <div>
               <h3 className="text-xl font-display font-bold text-cream">¡Orquestemos Algo Grande!</h3>
-              <p className="text-xs text-moss font-mono mt-0.5">Envía un ping de conexión o una propuesta de contrato de pipeline de datos.</p>
+              <p className="text-xs text-moss font-mono mt-0.5">Completa el formulario y tu mensaje llegará directo a mi WhatsApp.</p>
             </div>
-            <Mail size={22} className="text-terracotta" />
+            <MessageCircle size={22} className="text-terracotta" />
           </div>
 
           <div className="p-6">
@@ -455,9 +460,9 @@ export default function App() {
                 <div className="w-14 h-14 rounded-full bg-sage/20 border-3 border-sage flex items-center justify-center text-sage text-2xl animate-bounce">
                   ✨
                 </div>
-                <h4 className="font-display font-bold text-lg text-forest">¡Ingestión de Contacto Exitosa!</h4>
+                <h4 className="font-display font-bold text-lg text-forest">¡Abriendo WhatsApp!</h4>
                 <p className="text-sm text-forest/80 max-w-sm leading-relaxed">
-                  Gracias por enviar tu mensaje. El receptor de cola de Anthony procesará tu ping de contacto y responderá en menos de 24 horas.
+                  Te redirigí a WhatsApp con tu mensaje listo para enviar. Si no se abrió automáticamente, escríbeme al +51 981 505 082. Te responderé en menos de 24 horas.
                 </p>
               </div>
             ) : (
@@ -509,7 +514,7 @@ export default function App() {
                   type="submit"
                   className="w-full py-3 border-3 border-forest bg-terracotta text-forest font-bold font-display rounded-xl shadow-[4px_4px_0px_0px_rgba(33,51,41,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
-                  Publicar en la Cola de Mensajes <Mail size={15} />
+                  Enviar por WhatsApp <MessageCircle size={15} />
                 </button>
               </form>
             )}
@@ -522,7 +527,7 @@ export default function App() {
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="text-left space-y-1">
             <span className="font-display font-bold text-lg text-cream tracking-tight">
-              Anthony López
+              Anthony Mayron López Oquendo
             </span>
             <p className="text-xs text-moss font-mono">
               Diseñado y Construido en Cusco, Perú • © {new Date().getFullYear()}
@@ -560,6 +565,15 @@ export default function App() {
               className="p-2.5 border-2 border-forest bg-cream hover:bg-terracotta text-forest rounded-xl transition-all shadow-[2.5px_2.5px_0px_0px_rgba(33,51,41,1)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5"
             >
               <Mail size={16} />
+            </a>
+            <a
+              href="https://wa.me/51981505082"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="WhatsApp"
+              className="p-2.5 border-2 border-forest bg-cream hover:bg-terracotta text-forest rounded-xl transition-all shadow-[2.5px_2.5px_0px_0px_rgba(33,51,41,1)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5"
+            >
+              <MessageCircle size={16} />
             </a>
           </div>
         </div>

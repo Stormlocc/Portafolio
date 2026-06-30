@@ -15,7 +15,7 @@ export default function CVAssistant() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "¡Hola! Soy el clon de IA de Anthony López. ¡Pregúntame lo que quieras sobre mis pipelines de datos, mi vida en Cusco, optimización de rendimiento de Spark, arquitecturas de modelos o cómo resolví grandes desafíos de escalabilidad! 🚀",
+      content: "¡Hola! Soy el clon de IA de Anthony Mayron López Oquendo. ¡Pregúntame lo que quieras sobre mis pipelines de datos, mi vida en Cusco, optimización de rendimiento de Spark, arquitecturas de modelos o cómo resolví grandes desafíos de escalabilidad! 🚀",
       timestamp: new Date(),
     },
   ]);
@@ -122,12 +122,13 @@ export default function CVAssistant() {
               <div className="p-4 bg-[#075E54] text-cream border-b-3 border-forest flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
                   <img
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80"
-                    alt="Anthony López"
-                    className="w-10 h-10 border-2 border-cream rounded-full object-cover"
+                    src={`${import.meta.env.BASE_URL}images/yo_anthony.png`}
+                    alt="Anthony Mayron López Oquendo"
+                    className="w-10 h-10 border-2 border-cream rounded-full object-cover bg-[#E5DDD5]"
+                    referrerPolicy="no-referrer"
                   />
                   <div>
-                    <h3 className="font-display font-bold text-base leading-tight text-white">Anthony López</h3>
+                    <h3 className="font-display font-bold text-base leading-tight text-white">Anthony Mayron López Oquendo</h3>
                     <div className="flex items-center gap-1.5 mt-0.5">
                       <span className="h-1.5 w-1.5 bg-green-400 rounded-full animate-pulse" />
                       <span className="text-[10px] font-mono uppercase tracking-widest text-[#A3B18A]">En línea • Clon de IA</span>
